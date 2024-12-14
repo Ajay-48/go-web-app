@@ -1,12 +1,13 @@
 ---
-name: CI
+name: CI/CD
 on:
   push:
     branches:
       - main
     paths-ignore:
-      - README.md
-      - helm/**
+      - 'README.md'
+      - 'helm/**'
+      - 'k8s'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +28,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Run golanci-lint
-        uses: golangci/golangci-lint
+        uses: golangci/golangci-lint-action@v6
         with:
           version: v1.56.2
   push:
@@ -59,9 +60,8 @@ jobs:
         with:
           token: ${{ secrets_TOKEN }}
       - name: Update tag in Helm chart
-        run: >
-          sed -i 's/tag: .*/tag: "${{github.run_id}}"/'
-          helm/go-web-app-chart/values.yaml
+        run: |
+          sed -i 's/tag: .*/tag: "${{github.run_id}}"/' helm/go-web-app-chart/values.yaml
       - name: Commit and push changes
         run: |
           git config --global user.email "ajaykumarbolakonda048@gmail.com"
