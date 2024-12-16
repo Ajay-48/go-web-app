@@ -1,200 +1,100 @@
 Go Application Deployment on Kubernetes with Argo CD and GitHub Actions
-
-This repository documents the process of deploying a Go-based application on Kubernetes using Argo CD for GitOps continuous delivery and GitHub Actions for CI/CD. Below are the detailed steps performed during the project.
+This repository documents the process of deploying a Go-based application on Kubernetes using Argo CD for GitOps and GitHub Actions for CI/CD.
 
 Project Overview
+This project demonstrates the deployment of a Go-based application on an AWS EKS cluster using modern DevOps practices. The deployment pipeline is built with:
 
-The project demonstrates how to:
-
-Build and test a Go application locally.
-
-Containerize the application using Docker.
-
-Deploy the application on Kubernetes using Helm charts.
-
-Automate CI/CD with GitHub Actions.
-
-Use Argo CD to manage Kubernetes deployments via GitOps.
-
-Ensure the application is accessible via a domain name.
-
-Prerequisites
-
-Go installed locally.
-
-Docker installed and configured.
-
-Kubernetes cluster (AWS EKS used in this project).
-
-Helm installed.
-
-Argo CD installed on the Kubernetes cluster.
-
-Domain name for application ingress.
-
+Docker for containerization.
+Kubernetes for orchestration.
+Helm for templating Kubernetes resources.
+Argo CD for GitOps-based continuous delivery.
+GitHub Actions for continuous integration and automated workflows.
+Features
+Local testing and validation of the Go application.
+Dockerized Go application for portability.
+Kubernetes manifests for application deployment.
+Helm charts for streamlined Kubernetes resource management.
+CI/CD pipeline using GitHub Actions.
+GitOps-based delivery with Argo CD.
+External application access using an Ingress controller and domain name.
 Steps Performed
-
-1. Run Go Application Locally
-
-Verified the Go application runs successfully using:
-
-go run main.go
-
-Ensured the application is functional locally.
-
+1. Run the Go Application Locally
+Verified the Go application by running it on the local environment.
 2. Dockerize the Application
-
-Wrote a Dockerfile to containerize the Go application.
-
-Built and ran the Docker image:
-
-docker build -t go-web-app:latest .
-docker run -p 8080:8080 go-web-app:latest
-
-Verified the application is functional within the Docker container.
-
-3. Create Kubernetes Manifest Files
-
-Wrote the following Kubernetes manifests:
-
-deployment.yaml: Defines the deployment for the application.
-
-service.yaml: Exposes the application as a service within the cluster.
-
-ingress.yaml: Configures ingress to access the application via a domain name.
-
+Created a Dockerfile for the application.
+Built the Docker image:
+bash
+Copy code
+docker build -t go-web-app .
+Ran the Docker container and validated the application:
+bash
+Copy code
+docker run -p 8080:8080 go-web-app
+3. Create Kubernetes Manifests
+Wrote Kubernetes manifest files:
+deployment.yaml for deploying the application.
+service.yaml to expose the application internally.
+ingress.yaml for external access via a domain name.
 4. Helm Chart Creation
-
-Consolidated the Kubernetes manifests into a Helm chart.
-
-Added a values.yaml file to parameterize configurations (e.g., image tag).
-
-5. CI/CD with GitHub Actions
-
-Wrote a GitHub Actions pipeline to automate CI/CD tasks:
-
-Build and Test: Build and test the Go application.
-
-Code Quality Check: Ensure code meets quality standards using linters.
-
-Docker Image Push: Push the Docker image to Docker Hub with proper tagging.
-
-Helm Chart Update: Update the Helm chart values.yaml with the new Docker image tag.
-
-6. Create EKS Cluster
-
-Created an Amazon EKS cluster to host the application.
-
-Configured kubectl to interact with the cluster.
-
+Packaged the Kubernetes manifests into a Helm chart:
+values.yaml file created for configurability.
+5. GitHub Actions Pipeline
+Configured a GitHub Actions workflow with the following steps:
+Build and Test: Compiled the Go application and ran tests.
+Code Quality Check: Ensured code adheres to standards using golangci-lint.
+Push Docker Image: Built and pushed the Docker image to Docker Hub with appropriate tags.
+Helm Chart Update: Updated the values.yaml file with the new Docker image tag.
+6. Set Up AWS EKS Cluster
+Created an EKS cluster on AWS to host the Kubernetes deployment.
 7. Install Ingress Controller and Argo CD
-
-Installed an ingress controller (e.g., NGINX ingress) on the EKS cluster.
-
-Installed Argo CD for GitOps-based continuous delivery.
-
-8. Execute GitHub Actions Pipeline
-
-Ran the GitHub Actions pipeline to:
-
-Build and push the Docker image.
-
-Update the Helm chart with the new image tag.
-
-9. Deploy Application with Argo CD
-
-Created an Argo CD application using the Helm chart.
-
-Synced the Argo CD application to deploy the Go application on the EKS cluster.
-
-10. Verify Application Accessibility
-
-Accessed the Go application externally via the configured domain name.
-
-Repository Structure
-
-.
-├── Dockerfile               # Dockerfile for building the application image
-├── helm/                    # Helm chart for the application
-│   ├── templates/           # Kubernetes manifest templates
-│   │   ├── deployment.yaml
-│   │   ├── service.yaml
-│   │   └── ingress.yaml
-│   └── values.yaml          # Helm values file
-├── k8s/                     # Kubernetes manifests (if Helm is not used)
-│   ├── deployment.yaml
-│   ├── service.yaml
-│   └── ingress.yaml
-├── .github/workflows/       # GitHub Actions workflows
-│   └── ci-cd.yaml           # CI/CD pipeline configuration
-└── README.md                # Project documentation (this file)
-
-Tools and Technologies
-
+Installed an Ingress controller to enable external access to services.
+Installed Argo CD for GitOps-based deployment.
+8. Execute CI/CD Pipeline
+Triggered the GitHub Actions workflow, which:
+Built and tested the application.
+Published the Docker image to Docker Hub.
+Updated the Helm chart with the new Docker image tag.
+9. Deploy Application via Argo CD
+Created an Argo CD application using the prepared Helm charts.
+Configured Argo CD to monitor the Git repository and deploy the application automatically.
+10. Access Application
+Verified that the application is deployed and accessible externally using the domain name configured in the Ingress resource.
+Technologies Used
 Programming Language: Go
-
 Containerization: Docker
-
 Orchestration: Kubernetes
-
+Templating: Helm
 CI/CD: GitHub Actions
-
 GitOps: Argo CD
-
 Cloud Provider: AWS (EKS)
-
-Package Manager: Helm
-
-How to Run
-
-1. Run Locally
-
-Clone the repository and navigate to the project directory.
-
-Run the application locally:
-
-go run main.go
-
-2. Build and Run Docker Container
-
-Build the Docker image:
-
-docker build -t go-web-app:latest .
-
-Run the Docker container:
-
-docker run -p 8080:8080 go-web-app:latest
-
-Access the application at http://localhost:8080.
-
-3. Deploy on Kubernetes
-
-Apply the Helm chart:
-
-helm install go-web-app helm/
-
+Repository Structure
+bash
+Copy code
+.
+├── Dockerfile                      # Docker configuration file
+├── k8s/
+│   ├── deployment.yaml             # Kubernetes Deployment manifest
+│   ├── service.yaml                # Kubernetes Service manifest
+│   ├── ingress.yaml                # Kubernetes Ingress manifest
+├── helm/
+│   ├── Chart.yaml                  # Helm chart metadata
+│   ├── templates/                  # Kubernetes resource templates
+│   └── values.yaml                 # Configurable values for the chart
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yaml              # GitHub Actions workflow
+└── README.md                       # Project documentation
+How to Use
+Prerequisites
+Docker installed locally.
+Kubernetes cluster (EKS recommended).
+Helm installed locally.
+Argo CD installed and configured.
+Steps
+Clone this repository:
+bash
+Copy code
+git clone https://github.com/your-username/your-repo-name.git
+Run the GitHub Actions workflow to build and deploy the application:
+Push changes to the repository to trigger the pipeline.
 Access the application using the configured domain name.
-
-CI/CD Pipeline
-
-The GitHub Actions pipeline automates the following steps:
-
-Build and test the application.
-
-Perform code quality checks.
-
-Build and push the Docker image to Docker Hub.
-
-Update the Helm chart with the new image tag.
-
-GitOps Deployment with Argo CD
-
-Install Argo CD on the Kubernetes cluster.
-
-Create an Argo CD application linked to this repository and Helm chart.
-
-Sync the application in Argo CD to deploy the Go application.
-
-Accessing the Application
-
-Once deployed, the application is accessible via the domain name configured in the ingress.
