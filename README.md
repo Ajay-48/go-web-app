@@ -132,4 +132,3 @@ This project demonstrates the deployment of a Go-based application on an AWS EKS
 
 ---
 
-## Contact
