@@ -133,7 +133,3 @@ This project demonstrates the deployment of a Go-based application on an AWS EKS
 ---
 
 ## Contact
-
-For questions or feedback, feel free to reach out:
-- **Email**: ajaykumarbolakonda048@gmail.com
-- **GitHub**: [Ajay-48](https://github.com/Ajay-48)
