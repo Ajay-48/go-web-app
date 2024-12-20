@@ -27,8 +27,8 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
-      - name: Run golanci-lint
-        uses: golangci/golangci-lint-action@v3
+      - name: Golang Static Analysis Checker
+        uses: danhunsaker/golang-github-actions@v1.3.1
         with:
           version: v1.56.2
   push:
