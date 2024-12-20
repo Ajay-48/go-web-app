@@ -28,7 +28,7 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Golang Static Analysis Checker
-        uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
+        uses: golang/govulncheck-action@v1
         with:
           version: v1.56.2
   push:
