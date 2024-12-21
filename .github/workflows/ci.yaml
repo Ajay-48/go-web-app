@@ -28,7 +28,7 @@ jobs:
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           message: "Build Completed"
-          channel: C07E92526N9
+          channel: D0861MNE4KF
   code-quality:
     runs-on: ubuntu-latest
     steps:
