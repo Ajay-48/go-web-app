@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: ajay048/go-web-app
   pullPolicy: IfNotPresent
-  tag: "12445508018"
+  tag: "12445602989"
 ingress:
   enabled: false
   className: ""
