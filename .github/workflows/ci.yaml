@@ -22,13 +22,21 @@ jobs:
         run: go build -o go-web-app
       - name: Test
         run: go test ./...
-      - name: slack-notification
-        id: slackstart
+      - name: Send Success Notification to Slack
+        if: ${{ success() }}
         uses: skarlso/slack-notification-action@v0.3.0
         with:
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          message: "Build Completed"
+          message: "Build stage completed successfully! 🎉"
           channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Send Failure Notification to Slack
+        if: ${{ failure() }}
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Build stage failed. 😞"
+          channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
   code-quality:
     runs-on: ubuntu-latest
     steps:
@@ -58,6 +66,21 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/go-web-app:${{github.run_id}}
+      - name: Send Success Notification to Slack
+        if: ${{ success() }}
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Docker Image Push stage completed successfully! 🎉"
+          channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Send Failure Notification to Slack
+        if: ${{ failure() }}
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Docker Image Push failed. 😞"
+          channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
   Image-Scan:
     runs-on: ubuntu-latest
     needs: push
@@ -89,3 +112,18 @@ jobs:
           git add helm/go-web-app-chart/values.yaml
           git commit -m "Update tag in Helm chart"
           git push
+      - name: Send Success Notification to Slack
+        if: ${{ success() }}
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Helm Chart update successful! 🎉"
+          channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Send Failure Notification to Slack
+        if: ${{ failure() }}
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Helm Chart Update failed. 😞"
+          channel: D0861MNE4KF
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
