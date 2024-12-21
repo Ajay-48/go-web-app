@@ -26,6 +26,7 @@ jobs:
         id: slackstart
         uses: skarlso/slack-notification-action@v0.3.0
         with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
           message: "Build Completed"
           channel: C07E92526N9
   code-quality:
