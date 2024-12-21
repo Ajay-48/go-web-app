@@ -57,6 +57,13 @@ jobs:
     steps:
       - name: Aqua Security Trivy
         uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: 'docker.io/${{ secrets.DOCKERHUB_USERNAME }}/go-web-app:${{github.run_id}}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
   update-newtag-in-helm-chart:
     runs-on: ubuntu-latest
     needs: push
