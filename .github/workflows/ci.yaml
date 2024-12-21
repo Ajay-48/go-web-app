@@ -22,6 +22,12 @@ jobs:
         run: go build -o go-web-app
       - name: Test
         run: go test ./...
+      - name: slack-notification
+        id: slackstart
+        uses: skarlso/slack-notification-action@v0.3.0
+        with:
+          message: "Build Completed"
+          channel: C07E92526N9
   code-quality:
     runs-on: ubuntu-latest
     steps:
