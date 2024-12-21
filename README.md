@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/6d230ce3-572a-47a1-b43b-f537fe83cb73)
+
 # Go Application Deployment on Kubernetes with Argo CD and GitHub Actions
 
 This repository documents the process of deploying a Go-based application on Kubernetes using **Argo CD** for GitOps and **GitHub Actions** for CI/CD.
